@@ -102,6 +102,7 @@ abstract final class AppStyles {
   static const double radiusDefault = 8;
   static const double radiusInput = 12;
   static const double radiusCard = 16;
+  static const double radiusButton = 20;
   static const double radiusLarge = 24;
   static const double radiusFull = 999;
 
