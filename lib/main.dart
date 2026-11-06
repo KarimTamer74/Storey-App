@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storey_app/app_bloc_observer.dart';
 import 'package:storey_app/core/routing/app_router.dart';
-import 'package:storey_app/features/home/presentation/cubits/products_cubit/products_cubit.dart';
-import 'package:storey_app/features/profile/presentation/screens/profile_screen.dart';
+import 'package:storey_app/main_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/theme/app_theme.dart';
@@ -31,10 +30,7 @@ class StoreyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Storey',
       theme: AppTheme.lightTheme,
-      home: BlocProvider(
-        create: (context) => ProductsCubit()..fetchProducts(),
-        child: const ProfileScreen(),
-      ),
+      home: const MainScreen(),
     );
   }
 }
