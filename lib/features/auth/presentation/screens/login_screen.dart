@@ -1,6 +1,9 @@
 // features/auth/presentation/screens/login_screen.dart
 import 'package:flutter/material.dart';
-import 'package:storey_app/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:storey_app/core/routing/routes.dart';
+import 'package:storey_app/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
+import 'package:storey_app/features/auth/presentation/cubits/auth_cubit/auth_states.dart';
 
 import '../../../../core/common_widgets/app_elevated_button.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -11,8 +14,23 @@ import '../widgets/auth_text_field.dart';
 import '../widgets/login_options.dart';
 import '../widgets/social_login_options.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,26 +63,61 @@ class LoginScreen extends StatelessWidget {
                               subtitleAfter: '',
                             ),
                             const SizedBox(height: 57),
-                            const AuthTextField(
+                            AuthTextField(
                               label: 'Username or Email',
                               hint: 'emilys',
                               fieldHeight: 49,
                               labelSpacing: 6,
+                              controller: _emailController,
                             ),
                             const SizedBox(height: AppStyles.space20),
-                            const AuthTextField(
+                            AuthTextField(
                               label: 'Password',
                               hint: '••••••••••',
                               isPassword: true,
                               fieldHeight: 49,
                               labelSpacing: 6,
+                              controller: _passwordController,
                             ),
                             const SizedBox(height: AppStyles.space20),
                             const LoginOptions(),
                             const SizedBox(height: AppStyles.space20),
-                            const AppElevatedButton(
-                              label: 'Sign In',
-                              onPressed: _noAction,
+                            BlocListener<AuthCubit, AuthState>(
+                              listener: (context, state) {
+                                if (state is AuthSuccess) {
+                                  Navigator.pop(context);
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    Routes.homeScreen,
+                                  );
+                                } else if (state is AuthFailure) {
+                                  Navigator.pop(context);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Sign up failed.'),
+                                    ),
+                                  );
+                                } else if (state is AuthLoading) {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    },
+                                  );
+                                }
+                              },
+                              child: AppElevatedButton(
+                                label: 'Sign In',
+                                onPressed: () async {
+                                 await context.read<AuthCubit>().signIn(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                  );
+                                },
+                              ),
                             ),
                             const SizedBox(height: 57),
                             const SocialLoginOptions(),
@@ -73,11 +126,9 @@ class LoginScreen extends StatelessWidget {
                               title: "Don't have an account? ",
                               buttonText: 'Create an Account',
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushNamed(
                                   context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const SignUpScreen(),
-                                  ),
+                                  Routes.signupScreen,
                                 );
                               },
                             ),
@@ -95,6 +146,4 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-
-  static void _noAction() {}
 }

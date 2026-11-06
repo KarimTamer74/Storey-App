@@ -1,3 +1,4 @@
+// features/auth/presentation/widgets/auth_text_field.dart
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -10,9 +11,9 @@ class AuthTextField extends StatelessWidget {
     this.isPassword = false,
     this.fieldHeight = 53,
     this.labelSpacing = AppStyles.space8,
-    super.key,
+    super.key, required this.controller,
   });
-
+final TextEditingController controller;
   final String label;
   final String hint;
   final bool isPassword;
@@ -40,6 +41,7 @@ class AuthTextField extends StatelessWidget {
         SizedBox(
           height: fieldHeight,
           child: TextField(
+            controller: controller,
             obscureText: isPassword,
             style: AppStyles.style16Regular.copyWith(
               color: AppColors.textPrimary,
