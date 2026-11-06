@@ -1,8 +1,9 @@
 // main.dart
 
 import 'package:flutter/material.dart';
+import 'package:storey_app/features/home/presentation/screens/home_screen.dart';
+
 import 'core/theme/app_theme.dart';
-import 'features/auth/presentation/screens/login_screen.dart';
 
 void main() {
   runApp(const StoreyApp());
@@ -17,7 +18,7 @@ class StoreyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Storey',
       theme: AppTheme.lightTheme,
-      home: const LoginScreen(),
+      home: const HomeScreen(),
     );
   }
 }
