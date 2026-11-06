@@ -35,4 +35,10 @@ abstract final class AppColors {
   static const Color favorite = Color(0xFFEF4444);
   static const Color black = Color(0xFF000000);
   static const Color containerBackgroundClr = Color(0xffDBEAFE);
+  static const Color backgroundColor = Color(0xFFFAFBFD);
+  static const Color rose = Color(0xFFF43F5E);
+  static const Color roseBackground = Color(0xFFFFF1F2);
+  static const Color amberBackground = Color(0xFFFFFBEB);
+  static const Color purple = Color(0xFFA855F7);
+  static const Color purpleBackground = Color(0xFFFAF5FF);
 }
