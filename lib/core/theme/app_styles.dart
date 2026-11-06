@@ -1,6 +1,7 @@
 // core/theme/app_styles.dart
 
 import 'package:flutter/material.dart';
+
 import 'app_colors.dart';
 
 abstract final class AppStyles {
@@ -52,7 +53,14 @@ abstract final class AppStyles {
     height: 1.43,
     color: AppColors.textPrimary,
   );
-
+  static const TextStyle style12Bold = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    height: 1.33,
+    letterSpacing: 0.12,
+    color: AppColors.textPrimary,
+  );
   // Regular
   static const TextStyle style16Regular = TextStyle(
     fontFamily: fontFamily,
@@ -119,23 +127,11 @@ abstract final class AppStyles {
   static const double gridSpacing = 16;
 
   static const List<BoxShadow> cardShadow = [
-    BoxShadow(
-      color: Color(0x0A0F172A),
-      offset: Offset(0, 1),
-      blurRadius: 3,
-    ),
-    BoxShadow(
-      color: Color(0x050F172A),
-      offset: Offset(0, 4),
-      blurRadius: 12,
-    ),
+    BoxShadow(color: Color(0x0A0F172A), offset: Offset(0, 1), blurRadius: 3),
+    BoxShadow(color: Color(0x050F172A), offset: Offset(0, 4), blurRadius: 12),
   ];
 
   static const List<BoxShadow> elevatedShadow = [
-    BoxShadow(
-      color: Color(0x0F0F172A),
-      offset: Offset(0, 8),
-      blurRadius: 24,
-    ),
+    BoxShadow(color: Color(0x0F0F172A), offset: Offset(0, 8), blurRadius: 24),
   ];
 }

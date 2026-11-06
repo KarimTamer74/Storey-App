@@ -34,4 +34,5 @@ abstract final class AppColors {
   static const Color rating = Color(0xFFF59E0B);
   static const Color favorite = Color(0xFFEF4444);
   static const Color black = Color(0xFF000000);
+  static const Color containerBackgroundClr = Color(0xffDBEAFE);
 }
