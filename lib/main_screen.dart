@@ -30,7 +30,7 @@ class _MainScreenState extends State<MainScreen> {
           TabItem(icon: Icons.add, title: 'Add'),
           TabItem(icon: Icons.person, title: 'Profile'),
         ],
-        initialActiveIndex: 1,
+        initialActiveIndex: 0,
         onTap: (int i) => setState(() {
           _selectedIndex = i;
         }),
