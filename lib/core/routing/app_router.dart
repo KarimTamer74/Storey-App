@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storey_app/core/routing/routes.dart';
 import 'package:storey_app/features/auth/presentation/cubits/auth_cubit/auth_cubit.dart';
 import 'package:storey_app/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:storey_app/features/home/presentation/cubits/products_cubit/products_cubit.dart';
+import 'package:storey_app/features/home/presentation/screens/home_screen.dart';
 
 class AppRouter {
   static Route? generateRoute(RouteSettings settings) {
@@ -14,7 +16,10 @@ class AppRouter {
         );
       case Routes.homeScreen:
         return _createRoute(
-          Scaffold(body: Center(child: Text('Home Screen'))),
+          BlocProvider(
+            create: (context) => ProductsCubit()..fetchProducts(),
+            child: HomeScreen(),
+          ),
         );
       default:
         return null;

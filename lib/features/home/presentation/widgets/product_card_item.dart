@@ -1,10 +1,12 @@
 // features/home/presentation/widgets/product_card_item.dart
 import 'package:flutter/material.dart';
 import 'package:storey_app/core/theme/app_styles.dart';
+import 'package:storey_app/features/home/data/models/product_model.dart';
 
 class ProductCardItem extends StatelessWidget {
-  const ProductCardItem({super.key});
+  const ProductCardItem({super.key, required this.product});
 
+final ProductModel product;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -15,7 +17,7 @@ class ProductCardItem extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
               child: Image.network(
-                'https://via.placeholder.com/150',
+                product.imageUrl,
                 fit: BoxFit.fill,
                 width: double.infinity,
               ),
@@ -28,13 +30,13 @@ class ProductCardItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Apple',
+                  product.brand,
                   style: AppStyles.style12Regular,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  'iPhone 13',
+                  product.name,
                   style: AppStyles.style12Bold,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -45,7 +47,7 @@ class ProductCardItem extends StatelessWidget {
                   children: [
                     Icon(Icons.star, color: Colors.yellow),
                     Text(
-                      4.9.toStringAsFixed(2),
+                      product.rating.toStringAsFixed(2),
                       style: AppStyles.style12Regular,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -55,14 +57,14 @@ class ProductCardItem extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '\$999',
+                      '\$${product.originalPrice}',
                       style: AppStyles.style12Bold,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(width: 8),
                     Text(
-                      '\$1099',
+                      '\$${product.originalPrice - product.discount}',
                       style: AppStyles.style12Regular.copyWith(
                         decoration: TextDecoration.lineThrough,
                       ),
