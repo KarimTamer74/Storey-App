@@ -4,9 +4,13 @@ import 'package:storey_app/core/theme/app_styles.dart';
 import 'package:storey_app/features/home/data/models/product_model.dart';
 
 class ProductCardItem extends StatelessWidget {
-  const ProductCardItem({super.key, required this.product});
-
-final ProductModel product;
+  const ProductCardItem({
+    super.key,
+    required this.product,
+    this.isShowAddToCartButton = false,
+  });
+  final bool? isShowAddToCartButton;
+  final ProductModel product;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -18,6 +22,20 @@ final ProductModel product;
               borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
               child: Image.network(
                 product.imageUrl,
+                errorBuilder: (context, error, stackTrace) {
+                  return Center(child: Icon(Icons.error, color: Colors.red));
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
                 fit: BoxFit.fill,
                 width: double.infinity,
               ),
@@ -64,7 +82,7 @@ final ProductModel product;
                     ),
                     SizedBox(width: 8),
                     Text(
-                      '\$${product.originalPrice - product.discount}',
+                      getFinalPrice().toStringAsFixed(2),
                       style: AppStyles.style12Regular.copyWith(
                         decoration: TextDecoration.lineThrough,
                       ),
@@ -73,12 +91,15 @@ final ProductModel product;
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.add_shopping_cart),
-                  label: Text('Add to Cart'),
-                ),
+
+                if (isShowAddToCartButton == true) ...[
+                  SizedBox(height: 8),
+                  ElevatedButton.icon(
+                    onPressed: () {},
+                    icon: Icon(Icons.add_shopping_cart),
+                    label: Text('Add to Cart'),
+                  ),
+                ],
               ],
             ),
           ),
@@ -86,4 +107,13 @@ final ProductModel product;
       ),
     );
   }
+
+  double getFinalPrice() {
+    return product.originalPrice -
+        product.originalPrice * (product.discount / 100);
+  }
 }
+
+//* Original 100
+//* discount 20
+//* finalPrice = originalPrice - originalPrice * (discount / 100)

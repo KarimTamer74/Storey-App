@@ -1,8 +1,11 @@
 // features/home/presentation/widgets/categories_section.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storey_app/core/common_widgets/app_text_button.dart';
 import 'package:storey_app/core/theme/app_colors.dart';
 import 'package:storey_app/core/theme/app_styles.dart';
+import 'package:storey_app/features/home/presentation/cubits/categories_cubit/categories_cubit.dart';
+import 'package:storey_app/features/home/presentation/cubits/categories_cubit/categories_states.dart';
 
 class CategoriesSection extends StatelessWidget {
   const CategoriesSection({super.key});
@@ -20,41 +23,60 @@ class CategoriesSection extends StatelessWidget {
         ),
         SizedBox(height: 16),
 
-        SizedBox(
-          height: 120,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) => const SizedBox(width: 16),
-            itemCount: 5,
-            itemBuilder: (context, index) {
+        BlocBuilder<CategoriesCubit, CategoriesState>(
+          builder: (context, state) {
+            if (state is CategoriesLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is CategoriesError) {
+              return Center(child: Text(state.errorMessage));
+            } else if (state is CategoriesLoaded) {
+              final categories = state.categories;
               return SizedBox(
-                width: 80,
-                child: Column(
-                  spacing: 10,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: AppColors.containerBackgroundClr,
-                        borderRadius: BorderRadius.circular(16),
+                height: 100,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(width: 16),
+                  itemCount: categories.length,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      width: 80,
+                      child: Column(
+                        spacing: 10,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  alignment: Alignment.center,
+
+                                  image: NetworkImage(
+                                    categories[index].imageUrl,
+                                  ),
+                                  fit: BoxFit.fill,
+                                ),
+                                color: AppColors.containerBackgroundClr,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                            ),
+                          ),
+                          Text(
+                            categories[index].name,
+                            style: AppStyles.style12Regular,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
-                      child: Icon(
-                        Icons.phone,
-                        size: 40,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    Text(
-                      'SmartphonesSmartphonesSmartphonesSmartphones',
-                      style: AppStyles.style12Regular,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
+                    );
+                  },
                 ),
               );
-            },
-          ),
+            } else {
+              return Center(child: Text('Unknown state'));
+            }
+          },
         ),
       ],
     );

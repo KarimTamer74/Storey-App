@@ -6,7 +6,7 @@ import 'package:storey_app/features/home/presentation/widgets/product_card_item.
 
 class PopularProductsSection extends StatelessWidget {
   const PopularProductsSection({super.key, required this.products});
-final List<ProductModel> products;
+  final List<ProductModel> products;
   @override
   Widget build(BuildContext context) {
     return SliverGrid.builder(
@@ -18,7 +18,10 @@ final List<ProductModel> products;
         childAspectRatio: .55,
       ),
       itemBuilder: (context, index) {
-        return ProductCardItem(product: products[index],);
+        return ProductCardItem(
+          product: products[index],
+          isShowAddToCartButton: true,
+        );
       },
     );
   }
