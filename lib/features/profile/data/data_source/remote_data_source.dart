@@ -6,16 +6,23 @@ import 'package:dio/dio.dart';
 import 'package:storey_app/core/errors/error_handler.dart';
 import 'package:storey_app/core/errors/failure.dart';
 import 'package:storey_app/features/profile/data/models/profile_model.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProfileRemoteDataSource {
   final Dio dio = Dio();
 
   Future<Either<Failure, ProfileModel>> getProfile() async {
     try {
+      final supabase = Supabase.instance.client;
+      final token = supabase.auth.currentSession?.accessToken;
+      log("Token $token");
       final response = await dio.get(
         'https://mbprotxzhesdejdxydoo.supabase.co/rest/v1/profiles',
         options: Options(
-          headers: {'apikey': 'sb_publishable_SBmeMdH44iRKFlkEz_G-1w_6IOwTUY1'},
+          headers: {
+            'apikey': 'sb_publishable_SBmeMdH44iRKFlkEz_G-1w_6IOwTUY1',
+            'Authorization': 'Bearer $token',
+          },
         ),
       );
       log('Profile Response: ${response.data}');
