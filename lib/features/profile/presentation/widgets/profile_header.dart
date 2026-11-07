@@ -1,10 +1,24 @@
 // features/profile/presentation/widgets/profile_header.dart
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:storey_app/core/theme/app_colors.dart';
 import 'package:storey_app/core/theme/app_styles.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class ProfileHeader extends StatelessWidget {
+class ProfileHeader extends StatefulWidget {
   const ProfileHeader({super.key});
+
+  @override
+  State<ProfileHeader> createState() => _ProfileHeaderState();
+}
+
+class _ProfileHeaderState extends State<ProfileHeader> {
+  @override
+  initState() {
+    super.initState();
+    getUserEmail();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +67,11 @@ class ProfileHeader extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  getUserEmail() {
+    SupabaseClient supabase = Supabase.instance.client;
+    log("Supabase client: ${supabase.auth.currentUser?.email}");
   }
 }
 

@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.pop(context);
                                   Navigator.pushReplacementNamed(
                                     context,
-                                    Routes.homeScreen,
+                                    Routes.mainScreen,
                                   );
                                 } else if (state is AuthFailure) {
                                   Navigator.pop(context);
