@@ -82,7 +82,7 @@ class ProductCardItem extends StatelessWidget {
                     ),
                     SizedBox(width: 8),
                     Text(
-                      '\$${product.originalPrice - product.discount}',
+                      getFinalPrice().toStringAsFixed(2),
                       style: AppStyles.style12Regular.copyWith(
                         decoration: TextDecoration.lineThrough,
                       ),
@@ -107,4 +107,13 @@ class ProductCardItem extends StatelessWidget {
       ),
     );
   }
+
+  double getFinalPrice() {
+    return product.originalPrice -
+        product.originalPrice * (product.discount / 100);
+  }
 }
+
+//* Original 100
+//* discount 20
+//* finalPrice = originalPrice - originalPrice * (discount / 100)
