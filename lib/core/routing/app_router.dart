@@ -6,6 +6,7 @@ import 'package:storey_app/features/auth/presentation/cubits/auth_cubit/auth_cub
 import 'package:storey_app/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:storey_app/features/home/presentation/cubits/products_cubit/products_cubit.dart';
 import 'package:storey_app/features/home/presentation/screens/home_screen.dart';
+import 'package:storey_app/main_screen.dart';
 
 class AppRouter {
   static Route? generateRoute(RouteSettings settings) {
@@ -21,6 +22,8 @@ class AppRouter {
             child: HomeScreen(),
           ),
         );
+      case Routes.mainScreen:
+        return _createRoute(MainScreen());
       default:
         return null;
     }

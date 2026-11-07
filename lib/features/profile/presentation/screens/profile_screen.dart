@@ -1,7 +1,9 @@
 // features/profile/presentation/screens/profile_screen.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:storey_app/core/theme/app_colors.dart';
 import 'package:storey_app/core/theme/app_styles.dart';
+import 'package:storey_app/features/profile/presentation/cubits/profile_cubit/profile_cubit.dart';
 import 'package:storey_app/features/profile/presentation/widgets/profile_header.dart';
 import 'package:storey_app/features/profile/presentation/widgets/profile_menu_item.dart';
 import 'package:storey_app/features/profile/presentation/widgets/profile_stats_card.dart';
@@ -32,8 +34,11 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    ProfileHeader(),
+                  children: [
+                    BlocProvider(
+                      create: (context) => ProfileCubit(),
+                      child: ProfileHeader(),
+                    ),
                     SizedBox(height: AppStyles.space16),
                     ProfileStatsCard(),
                     SizedBox(height: AppStyles.space16),
